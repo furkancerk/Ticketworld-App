@@ -12,6 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,6 +27,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "fonts": {
+      "RedditSansCondensed-Regular": "./assets/fonts/RedditSansCondensed-Regular-BF65163a1ab2dba.ttf",
+      "RedditSansCondensed-Bold": "./assets/fonts/RedditSansCondensed-Bold-BF65163a1aab219.ttf",
+      "RedditSansCondensed-SemiBold": "./assets/fonts/RedditSansCondensed-SemiBold-BF65163a1acd047.ttf",
+      "RedditSansCondensed-Light": "./assets/fonts/RedditSansCondensed-Light-BF65163a1abfd6e.ttf",
+      "RedditSansCondensed-ExtraBold": "./assets/fonts/RedditSansCondensed-ExtraBold-BF65163a1aae032.ttf"
     }
   }
 }
