@@ -10,7 +10,7 @@ const Categories = () => {
       <Text style={styles.title}>Categories</Text>
       <View style={styles.categoriesContainer}>
         <View style={styles.topRow}>
-          <TouchableOpacity onPress={() => navigation.navigate('CategoryDetails')}>
+          <TouchableOpacity onPress={() => navigation.navigate('CategoryDetails', { category: 'sport' })}>
             <ImageBackground
               source={require('../assets/sport.png')}
               style={styles.topCategory}
@@ -20,15 +20,20 @@ const Categories = () => {
               <Text style={styles.categoryText}>Sport</Text>
             </ImageBackground>
           </TouchableOpacity>
-          <ImageBackground
-            source={require('../assets/concert.png')}
-            style={styles.topCategory}
-            imageStyle={styles.imageStyle}
-          >
-            <View style={styles.overlay} />
-            <Text style={styles.categoryText}>Concert</Text>
-          </ImageBackground>
+
+          <TouchableOpacity onPress={() => navigation.navigate('CategoryDetails', { category: 'music' })}>
+            <ImageBackground
+              source={require('../assets/concert.png')}
+              style={styles.topCategory}
+              imageStyle={styles.imageStyle}
+            >
+              <View style={styles.overlay} />
+              <Text style={styles.categoryText}>Concert</Text>
+            </ImageBackground>
+          </TouchableOpacity>
         </View>
+
+        <TouchableOpacity onPress={() => navigation.navigate('CategoryDetails', { category: 'film' })}>
         <ImageBackground
           source={require('../assets/cinema.png')}
           style={styles.bottomCategory}
@@ -37,6 +42,9 @@ const Categories = () => {
           <View style={styles.overlay} />
           <Text style={styles.categoryText}>Cinema</Text>
         </ImageBackground>
+
+        </TouchableOpacity>
+        
       </View>
     </View>
   );

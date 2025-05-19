@@ -1,10 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Header from './Header';
 import NavBar from './NavBar';
+import { useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import { ActivityIndicator } from 'react-native';
+import { Image } from 'react-native';
+import moment from 'moment';
+
 
 const CategoryDetails = () => {
-  const [selectedFilter, setSelectedFilter] = useState('All');
+const [selectedFilter, setSelectedFilter] = useState('All');
+const route = useRoute();
+const { category } = route.params || {};
+const [events, setEvents] = useState([]);
+const [loading, setLoading] = useState(true);
+const API_KEY = 'dsCUbvntIFhWJsZ7hg9q0bTSuWHKN61R';
+useEffect(() => {
+  const fetchCategoryEvents = async () => {
+    if (!category) return;
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://app.ticketmaster.com/discovery/v2/events.json`,
+        {
+          params: {
+            apikey: API_KEY,
+            classificationName: category,
+            countryCode: 'US',
+            size: 20,
+          },
+        }
+      );
+
+      const results = response.data._embedded?.events || [];
+      setEvents(results);
+    } catch (err) {
+      console.error('API error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCategoryEvents();
+}, [category]);
+const getFilteredEvents = () => {
+  if (selectedFilter === 'All') return events;
+
+  const today = moment().startOf('day');
+  const tomorrow = moment().add(1, 'day').startOf('day');
+  const endOfToday = moment().endOf('day');
+  const endOfTomorrow = moment().add(1, 'day').endOf('day');
+  const endOfWeek = moment().endOf('isoWeek');
+  const endOfMonth = moment().endOf('month');
+
+  return events.filter((event) => {
+    const eventDate = moment(event.dates.start.dateTime);
+
+    switch (selectedFilter) {
+      case 'Today':
+        return eventDate.isBetween(today, endOfToday, null, '[]');
+      case 'Tomorrow':
+        return eventDate.isBetween(tomorrow, endOfTomorrow, null, '[]');
+      case 'This Week':
+        return eventDate.isBetween(today, endOfWeek, null, '[]');
+      case 'This Month':
+        return eventDate.isBetween(today, endOfMonth, null, '[]');
+      default:
+        return true;
+    }
+  });
+};
+
   const filters = ['All', 'Today', 'Tomorrow', 'This Week', 'This Month'];
 
   return (
@@ -36,7 +103,27 @@ const CategoryDetails = () => {
             ))}
           </ScrollView>
         </View>
-        {/* Buraya kategori detayları gelecek */}
+        {loading ? (
+  <ActivityIndicator size="large" color="#178A5C" style={{ marginTop: 20 }} />
+) : (
+  getFilteredEvents().map((event, index) => (
+
+    <View key={index} style={styles.eventContainer}>
+      <Image
+        source={{ uri: event.images?.[0]?.url }}
+        style={styles.eventImage}
+      />
+      <View style={styles.eventInfo}>
+        <Text style={styles.eventName}>{event.name}</Text>
+        <Text style={styles.eventDate}>{event.dates.start.localDate}</Text>
+        <Text style={styles.eventVenue}>
+          {event._embedded?.venues?.[0]?.name}
+        </Text>
+      </View>
+    </View>
+  ))
+)}
+
       </ScrollView>
       <NavBar />
     </View>
@@ -44,6 +131,41 @@ const CategoryDetails = () => {
 };
 
 const styles = StyleSheet.create({
+  eventContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  
+  eventImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  
+  eventInfo: {
+    flex: 1,
+  },
+  
+  eventName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  
+  eventDate: {
+    color: '#555',
+    fontSize: 14,
+  },
+  
+  eventVenue: {
+    color: '#888',
+    fontSize: 13,
+  },
+  
   container: {
     flex: 1,
     backgroundColor: '#fff',
