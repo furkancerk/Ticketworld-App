@@ -8,10 +8,13 @@ import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
 const CategoryDetails = () => {
+const navigation = useNavigation();
 const [selectedFilter, setSelectedFilter] = useState('All');
 const route = useRoute();
 const { category } = route.params || {};
