@@ -7,6 +7,8 @@ import axios from 'axios';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import moment from 'moment';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 
 const CategoryDetails = () => {
@@ -74,9 +76,13 @@ const getFilteredEvents = () => {
 
   const filters = ['All', 'Today', 'Tomorrow', 'This Week', 'This Month'];
 
+
   return (
+    
     <View style={styles.container}>
       <Header />
+      
+
       <ScrollView style={styles.scrollView}>
         <View style={styles.filterContainer}>
           <ScrollView 
@@ -84,22 +90,22 @@ const getFilteredEvents = () => {
             showsHorizontalScrollIndicator={false}
             style={styles.filterScroll}
           >
+            <TouchableOpacity
+    onPress={() => navigation.goBack()}
+    style={styles.backFilterButton}
+  >
+    <Ionicons name="chevron-back" size={20} color="#fff" />
+  </TouchableOpacity>
             {filters.map((filter, index) => (
-              <TouchableOpacity 
-                key={index} 
-                style={[
-                  styles.filterButton,
-                  selectedFilter === filter && styles.activeFilter
-                ]}
-                onPress={() => setSelectedFilter(filter)}
-              >
-                <Text style={[
-                  styles.filterText,
-                  selectedFilter === filter && styles.activeFilterText
-                ]}>
-                  {filter}
-                </Text>
-              </TouchableOpacity>
+              <TouchableOpacity
+              key={index}
+              style={[styles.filterButton, selectedFilter === filter && styles.activeFilter]}
+              onPress={() => setSelectedFilter(filter)}
+            >
+              <Text style={[styles.filterText, selectedFilter === filter && styles.activeFilterText]}>
+                {filter}
+              </Text>
+            </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
@@ -199,7 +205,18 @@ const styles = StyleSheet.create({
   activeFilterText: {
     color: '#fff',
     fontFamily: 'RedditSansCondensed-SemiBold',
+},
+backFilterButton: {
+  backgroundColor: '#178A5C',
+  paddingVertical: 8,
+  paddingHorizontal: 12,
+  borderRadius: 20,
+  marginRight: 8,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
   },
-});
+);
 
 export default CategoryDetails; 
