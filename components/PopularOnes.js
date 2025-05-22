@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
+
 
 const PopularOnes = ({ events = [] }) => {
   if (!events || events.length === 0) {
@@ -11,44 +14,51 @@ const PopularOnes = ({ events = [] }) => {
       </View>
     );
   }
+  const navigation = useNavigation();
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Popular Ones</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
         {events.map((event, index) => (
-          <View key={event.id || index} style={styles.eventCard}>
-            <ImageBackground
-              source={{ uri: event.images?.[0]?.url }}
-              style={styles.eventImage}
-              resizeMode="cover"
-            >
-              <View style={styles.dateContainer}>
-                <Text style={styles.dateText}>
-                  {new Date(event.dates.start.dateTime).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                  })}
+          <TouchableOpacity
+          key={event.id || index}
+          style={styles.eventCard}
+          onPress={() => navigation.navigate('EventDetails', { event })}
+        >
+          <ImageBackground
+            source={{ uri: event.images?.[0]?.url }}
+            style={styles.eventImage}
+            resizeMode="cover"
+          >
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateText}>
+                {new Date(event.dates.start.dateTime).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })}
+              </Text>
+            </View>
+            <View style={styles.eventInfo}>
+              <Text style={styles.eventName} numberOfLines={2}>
+                {event.name || 'No name available'}
+              </Text>
+            </View>
+            <View style={styles.blackOverlay}>
+              <View style={[styles.gradientOverlay, { opacity: 0.3, height: 70, bottom: -20 }]} />
+              <View style={[styles.gradientOverlay, { opacity: 0.5, height: 60, bottom: -10 }]} />
+              <View style={[styles.gradientOverlay, { opacity: 0.7 }]} />
+              <View style={styles.locationContainer}>
+                <Feather name="map-pin" size={14} color="#178A5C" style={styles.locationIcon} />
+                <Text style={styles.eventVenue} numberOfLines={1} ellipsizeMode="tail">
+                  {event._embedded?.venues?.[0]?.name || 'Venue TBA'}
                 </Text>
               </View>
-              <View style={styles.eventInfo}>
-                <Text style={styles.eventName} numberOfLines={2}>
-                  {event.name || 'No name available'}
-                </Text>
-              </View>
-              <View style={styles.blackOverlay}>
-                <View style={[styles.gradientOverlay, { opacity: 0.3, height: 70, bottom: -20 }]} />
-                <View style={[styles.gradientOverlay, { opacity: 0.5, height: 60, bottom: -10 }]} />
-                <View style={[styles.gradientOverlay, { opacity: 0.7 }]} />
-                <View style={styles.locationContainer}>
-                  <Feather name="map-pin" size={14} color="#178A5C" style={styles.locationIcon} />
-                  <Text style={styles.eventVenue} numberOfLines={1} ellipsizeMode="tail">
-                    {event._embedded?.venues?.[0]?.name || 'Venue TBA'}
-                  </Text>
-                </View>
-              </View>
-            </ImageBackground>
-          </View>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+        
         ))}
       </ScrollView>
     </View>
