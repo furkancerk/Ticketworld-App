@@ -116,20 +116,18 @@ const getFilteredEvents = () => {
   <ActivityIndicator size="large" color="#178A5C" style={{ marginTop: 20 }} />
 ) : (
   getFilteredEvents().map((event, index) => (
-
-    <View key={index} style={styles.eventContainer}>
-      <Image
-        source={{ uri: event.images?.[0]?.url }}
-        style={styles.eventImage}
-      />
+    <TouchableOpacity
+      key={index}
+      style={styles.eventContainer}
+      onPress={() => navigation.navigate('EventDetails', { event })}
+    >
+      <Image source={{ uri: event.images?.[0]?.url }} style={styles.eventImage} />
       <View style={styles.eventInfo}>
         <Text style={styles.eventName}>{event.name}</Text>
         <Text style={styles.eventDate}>{event.dates.start.localDate}</Text>
-        <Text style={styles.eventVenue}>
-          {event._embedded?.venues?.[0]?.name}
-        </Text>
+        <Text style={styles.eventVenue}>{event._embedded?.venues?.[0]?.name}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   ))
 )}
 

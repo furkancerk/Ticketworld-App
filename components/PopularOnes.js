@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-nativ
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
 
 
 const PopularOnes = ({ events = [] }) => {
@@ -16,8 +20,8 @@ const PopularOnes = ({ events = [] }) => {
   }
   const navigation = useNavigation();
 
-
   return (
+    
     <View style={styles.container}>
       <Text style={styles.title}>Popular Ones</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
