@@ -11,6 +11,7 @@ import {
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
+import NavBar from '../components/NavBar';
 
 const EventDetails = () => {
   const { event } = useRoute().params;
@@ -40,6 +41,7 @@ const EventDetails = () => {
           </TouchableOpacity>
         )}
       </ScrollView>
+      <NavBar />
     </View>
   );
 };

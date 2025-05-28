@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     borderColor: '#178A5C',
   },
   bottomCategory: {
-    height: 52,
+    height: 82.5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,

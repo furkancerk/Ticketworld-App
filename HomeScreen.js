@@ -6,9 +6,12 @@ import Categories from './components/Categories';
 import NavBar from './components/NavBar';
 import axios from 'axios';
 
+
 const HomeScreen = () => {
   const [events, setEvents] = useState([]);
   const API_KEY = 'dsCUbvntIFhWJsZ7hg9q0bTSuWHKN61R';
+  
+
 
   useEffect(() => {
     const fetchEvents = async () => {
