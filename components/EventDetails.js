@@ -20,7 +20,7 @@ const EventDetails = () => {
     <View style={{ flex: 1 }}>
       <Header />
 
-      {/* Geri Butonu */}
+      
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="chevron-back" size={28} color="#000" />
       </TouchableOpacity>
